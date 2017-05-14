@@ -1,3 +1,7 @@
+body{
+	background: url("../images/wood_pattern.png");	
+}
+
 .masterimage {
   background: #ffc20d;
   border-bottom: 5px solid #e85b1b;
@@ -7,6 +11,7 @@
 
 .gameborder{
 	border: 2px #e85b1b dotted;
+	padding: 0;
 	overflow: auto;
 }
 
@@ -19,15 +24,14 @@
 	letter-spacing: 20px;
 }
 
-.artistimage {
-	width: 200px;
+.artistImage {
+	width: 400px;
     height: auto;
-    margin-top: 40px;
+/*    margin-top: 40px;
     padding-left: 50px;
-    padding-bottom: 50px;
+    padding-bottom: 50px;*/
 }
 
 .result{
 	width: 100%;
-	padding: 0;
 }

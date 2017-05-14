@@ -10,24 +10,26 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 <body>
-	<script type="text/javascript" src="assets/javascript/game.js"></script>
 	<div class="container">
+		
 		<div class="row masterimage">
 			<img class="center-block" src="assets/images/90srbhangman.png" alt="R & B Hangman">
 		</div>
+		
 		<div class="row">
 			<h1 id="albumTitle" class="gameMessage">Get Ready To Relax!!!</h1>
 			<h3  id="gameMessageText" class="gameMessage"><strong>Start Guessing the Word.  Press any key to start</strong></h3>
 			<p id="computerPickText" class="gameMessage wordGuess"></p>
-			<p id ="userGuessText" class="gameMessage"></p>
+			<p id ="userGuessText" class="gameMessage wordGuess"></p>
 		</div>
+		
 		<div class="row">
 			<div class="col-md-2">
 			</div>
 			<div class="col-md-3 gameborder">
 				<div class="media">
   					<div class="media-center">
-						<img src="assets/images/90srbmainimage.jpg" alt="BN" class="" id="artistimages">
+						<img src="assets/images/90srbmainimage.jpg" alt="BN" class="artistImage" id="artistImage">
 					</div>
 				</div>
 			</div>
@@ -41,123 +43,17 @@
 				    <th><p class="gameMessage"><strong>Letters Already Guessed</strong></p></th>
 				  </tr>
 				  <tr>
-				    <td><p id="winText" class="gameMessage"></p></td>
-				    <td><p id="remainingGuessText" class="gameMessage"></p></td> 
-				    <td><p id="alreadyGuessText" class="gameMessage"></p></td>
+				    <td><strong><p id="winText" class="gameMessage"></p></strong></td>
+				    <td><strong><p id="remainingGuessText" class="gameMessage"></p></strong></td> 
+				    <td><strong><p id="alreadyGuessText" class="gameMessage"></p></strong></td>
 				  </tr>
 				</table>
 			<!-- </div>
 			<div class="col-md-4"> -->
 			</div>
 		</div>
+	
 	</div>	
-	<script type="text/javascript">
-		var currentWord;
-		var currentWordMasked;
-		var winValue = 0;
-		var computerPickValue;
-		var correctGuessValue = 0;
-		var remainingGuessValue = 10;
-		var alreadyGuessValue = "";
-		var gameStart;
-		var charactersFound = 0;
-
-	    // Let's start by grabbing a reference <span> below.
-	    var gameStart = document.getElementById("gameMessageText"); 
-	    var userText = document.getElementById("userGuessText");
-      	var computerPick = document.getElementById("computerPickText");
-      	var win = document.getElementById("winText");
-	    var alreadyGuess = document.getElementById("alreadyGuessText");
-	    var remainingGuessLeft = document.getElementById("remainingGuessText");
-
-	    //Display Number of Wins
-	    win.textContent = winValue;
-	    
-	    //Artist Choices
-	    var gameChoice = ["R Kelly","Sade","TLC"];
-	    computerPickValue = gameChoice[Math.floor(Math.random() * gameChoice.length)];
-	    currentWordMasked = computerPickValue.replace(/./g,"_");
-
-	    computerPick.textContent = currentWordMasked;
-	    remainingGuessLeft.textContent = remainingGuessValue;
-	    win.textContent = winValue;
-	    alreadyGuess.textContent = alreadyGuessValue;
-
-      	document.onkeyup = function(event) {
-	        userText.textContent = event.key;
-	        gameStart.textContent = "";
-	        
-	        //Search for the key pressed in the randomly picked word, only if the character has not been already guessed
-		    if (!alreadyGuessValue.toLowerCase().includes(userText.textContent.toLowerCase())){
-		        searchForCharacter(userText.textContent.toLowerCase());
-
-	        	if (charactersFound == 0){
-	        		remainingGuessValue--;
-	        		remainingGuessLeft.textContent = remainingGuessValue;
-	        	}
-        	}
-        	
-        	//If all guessed right, exit for
-        	if (correctGuessValue == computerPickValue.length) {
-        		winValue++;
-        		winText.textContent = winValue;
-        		gameStart.textContent = " YOU HAVE WON - THERE ARE MORE ARTISTS TO GUESS";
-        		resetValues();
-        	}
-
-        	if (remainingGuessValue == 0){
-        		gameStart.textContent = "SORRY YOU COULDN'T GUESS !!!! PRESS A KEY TO START OVER";
-        		resetValues();
-        	}
-        }
-
-        //Function to reset values
-        function resetValues(){
-			correctGuessValue = 0;
-			remainingGuessValue = 10;
-			remainingGuessLeft.textContent = remainingGuessValue;
-			alreadyGuessValue = "";
-			alreadyGuessText.textContent = alreadyGuessValue;
-			computerPickValue = gameChoice[Math.floor(Math.random() * gameChoice.length)];
-			currentWordMasked = computerPickValue.replace(/./g,"_");
-			computerPickText.textContent = currentWordMasked;
-        }
-
-        function searchForCharacter(c){
-        	charactersFound = 0
-        	
-        	for (var i = 0; i < computerPickValue.length; i++){
-	        	if (c ==  computerPickValue.charAt(i).toLowerCase()) {
-	        		//Counter for letters guessed right
-	        		correctGuessValue++;
-	        		charactersFound++;
-
-	        		//Display the new found letter
-	        		console.log(currentWordMasked.replaceAt(i,computerPickValue.charAt(i)));
-	        		currentWordMasked = currentWordMasked.replaceAt(i,computerPickValue.charAt(i));
-	        		computerPickText.textContent = currentWordMasked;
-	        		console.log(currentWordMasked[i]);
-	        		
-	        		//Building the string showing values guessed right
-	        		if(!alreadyGuessValue.toLowerCase().includes(computerPickValue.charAt(i).toLowerCase())){
-	        		    if (alreadyGuessValue.length == 0){
-		        			alreadyGuessValue = computerPickValue.charAt(i);
-		        		}
-		        		else{
-		        			alreadyGuessValue = alreadyGuessValue + ", " + computerPickValue.charAt(i);
-		        		}
-		        	}
-	        	}
-	        }
-
-    		//Updating the Web Page
-    		alreadyGuessText.textContent = alreadyGuessValue;
-        }
-
-        String.prototype.replaceAt=function(index, replacement) {
-    		return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
-		}
-
-	</script>
+	<script type="text/javascript" src="assets/javascript/game.js"></script>
 </body>
 </html>
